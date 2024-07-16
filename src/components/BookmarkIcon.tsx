@@ -1,9 +1,9 @@
-import { BookmarkFilledIcon } from "@radix-ui/react-icons";
+import { FaBookmark } from "react-icons/fa6";
 
 export default function BookmarkIcon() {
   return (
     <button className="bookmark-btn">
-      <BookmarkFilledIcon className="filled" />
+      <FaBookmark className="filled" />
     </button>
   );
 }

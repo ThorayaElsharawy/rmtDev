@@ -1,7 +1,8 @@
-export default function Sidebar() {
+
+export default function Sidebar({ children }: { children: React.ReactNode }) {
   return (
     <div className="sidebar">
-      <div className="sidebar__top"></div>
+      {children}
     </div>
   );
 }

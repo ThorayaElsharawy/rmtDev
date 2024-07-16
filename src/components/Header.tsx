@@ -1,7 +1,8 @@
-export default function Header() {
+
+export default function Header({ children }: { children: React.ReactNode }) {
   return (
     <header className="header">
-      <div className="header__top"></div>
+      {children}
     </header>
   );
 }

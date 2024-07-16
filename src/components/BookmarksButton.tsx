@@ -1,11 +1,11 @@
-import { FaRegBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa6";
 
 
 export default function BookmarksButton() {
   return (
     <section>
       <button className="bookmarks-btn">
-        Bookmarks <FaRegBookmark />
+        Bookmarks <FaBookmark />
       </button>
     </section>
   );
