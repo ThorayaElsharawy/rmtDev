@@ -12,7 +12,7 @@ export function JobList({ jobList, isLoading }: JobListProps) {
   const activeId = useActiveId()
   return <ul className="job-list">
     {isLoading && <Spinner />}
-    {!isLoading &&jobList.map(job => <JobListItem key={job.id} job={job} isActive={job.id === activeId } />)}
+    {!isLoading &&jobList?.map(job => <JobListItem key={job.id} job={job} isActive={job.id === activeId } />)}
   </ul>;
 }
 

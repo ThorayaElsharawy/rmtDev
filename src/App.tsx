@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Background from "./components/Background"
 import Container from "./components/Container"
 import Footer from "./components/Footer"
 import Header from "./components/Header"
-import { useJobItems } from "./lib/hooks";
+import { useDebounce, useJobItems } from "./lib/hooks";
 import SearchForm from "./components/SearchForm";
 import BookmarksButton from "./components/BookmarksButton";
 import Logo from "./components/Logo";
@@ -16,7 +16,9 @@ import PaginationControls from "./components/PaginationControls";
 
 function App() {
   const [searchText, setSearchText] = useState("");
-  const [jobList, isLoading] = useJobItems(searchText);
+  const  debouncedSearchText  = useDebounce(searchText, 500)
+  const { jobList, isLoading, totalNumOfResult } = useJobItems(debouncedSearchText);
+
 
   return (
     <>
@@ -34,7 +36,7 @@ function App() {
       <Container>
         <Sidebar>
           <div className="sidebar__top">
-            <ResultsCount />
+            <ResultsCount totalNumOfResult={totalNumOfResult} />
             <SortingControls />
           </div>
 
