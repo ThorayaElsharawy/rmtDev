@@ -8,7 +8,7 @@ type JobListItemProps = {
 export default function JobListItem({job}: JobListItemProps) {
   return (
     <li className="job-item">
-      <a className="job-item__link">
+      <a href={`#${job.id}`} className="job-item__link">
         <div className="job-item__badge">{job.badgeLetters}T</div>
 
         <div className="job-item__middle">
