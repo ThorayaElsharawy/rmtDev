@@ -13,12 +13,15 @@ import ResultsCount from "./components/ResultsCount";
 import SortingControls from "./components/SortingControls";
 import JobList from "./components/JobList";
 import PaginationControls from "./components/PaginationControls";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const [searchText, setSearchText] = useState("");
   const  debouncedSearchText  = useDebounce(searchText, 500)
-  const { jobList, isLoading, totalNumOfResult } = useJobItems(debouncedSearchText);
+  const { jobList, isLoading } = useJobItems(debouncedSearchText);
 
+  const totalNumOfResult = jobList?.length || 0;
+  const jobItemSliced = jobList?.slice(0,7) || []
 
   return (
     <>
@@ -40,13 +43,15 @@ function App() {
             <SortingControls />
           </div>
 
-          <JobList jobList={jobList} isLoading={isLoading} />
+          <JobList jobList={jobItemSliced} isLoading={isLoading} />
           <PaginationControls />
         </Sidebar>
         <JobItemContent />
       </Container>
 
       <Footer />
+
+      <Toaster position="top-right" />
     </>
   )
 }

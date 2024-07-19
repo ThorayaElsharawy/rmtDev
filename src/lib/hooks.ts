@@ -1,17 +1,16 @@
 import { useEffect, useState } from "react";
 import { TJobItem, TJobItemExpended } from "./types";
 import { useQuery } from "@tanstack/react-query";
+import toast from "react-hot-toast";
 
 const fetchJobItem = async (id: number | null): Promise<TJobItemExpended> => {
     const resopnse = await fetch(`https://bytegrad.com/course-assets/projects/rmtdev/api/data/${id}`)
-
     const data = await resopnse.json()
     return data.jobItem
 }
 
 export function useJobItem(id: number | null) {
-
-    const { data, error, isLoading } = useQuery<TJobItemExpended | null >({
+    const { data, error, isLoading } = useQuery<TJobItemExpended | null>({
         queryKey: ['job-item', id],
         queryFn: () => id ? fetchJobItem(id) : null,
         staleTime: 100 * 60 * 60,
@@ -20,7 +19,13 @@ export function useJobItem(id: number | null) {
         enabled: Boolean(id),
     })
 
-    console.log(error)
+    useEffect(() => {
+        if(!error) return
+        const message = handleError(error)
+        toast.error(message);
+
+    }, [error])
+
     return [data, isLoading] as const
 }
 
@@ -53,27 +58,30 @@ const fetchJobItems = async (searchText: string): Promise<TJobItem[]> => {
         throw new Error(errorData.description)
     }
     const data = await resopnse.json()
-    console.log(data.jobItems)
     return data.jobItems
 }
 
 export function useJobItems(searchText: string) {
 
-    const { data, isLoading } = useQuery<TJobItem[] | null>({
+    const { data, isLoading, error } = useQuery({
         queryKey: ['job-items', searchText],
         queryFn: () => searchText ? fetchJobItems(searchText) : null,
         staleTime: 100 * 60 * 60,
         refetchOnWindowFocus: false,
         enabled: Boolean(searchText),
-        retry: false,
+        retry: false
     })
 
+    useEffect(() => {
+        if(!error) return
+        const message = handleError(error)
+        toast.error(message);
 
+    }, [error])
 
     return {
-        jobList: data?.slice(0,7),
-        isLoading,
-        totalNumOfResult: data?.length
+        jobList: data,
+        isLoading
     } as const
 }
 
@@ -89,4 +97,19 @@ export function useDebounce<T>(value: T, delay: number = 500): T {
     }, [value, delay])
 
     return debouncedValue
+}
+
+const handleError = (error: unknown) => {
+   
+    let message;
+
+    if (error instanceof Error) {
+        message = error.message;
+    } else if (typeof error === "string") {
+        message = error;
+    } else {
+        message = "An error occurred.";
+    }
+
+    return message
 }
