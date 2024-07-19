@@ -1,8 +1,9 @@
 import { FaArrowLeft } from "react-icons/fa6";
 import { FaArrowRight } from "react-icons/fa6";
+import { TDirection } from "../lib/types";
 
 type PaginationControlsProps = {
-  onClick: (direction: 'next' | 'previous') => void;
+  onClick: (direction: TDirection) => void;
   currentPage: number,
   totalNumOfPage: number
 }
@@ -17,7 +18,7 @@ export default function PaginationControls({ onClick, currentPage, totalNumOfPag
 }
 
 type PaginationButtonProps = {
-  direction: 'next' | 'previous',
+  direction: TDirection,
   currentPage: number,
   onClick: () => void
 }

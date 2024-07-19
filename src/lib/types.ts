@@ -17,3 +17,7 @@ export type TJobItemExpended = TJobItem & {
   reviews: string[]
   salary: string
 }
+
+export type TSortBy = 'recent' | 'relevant'
+
+export type TDirection = 'next' | 'previous'
