@@ -641,8 +641,8 @@ body::-webkit-scrollbar {
   cursor: pointer;
   transition: all 0.2s, visibility 0s;
   gap: 2px;
-  display: flex;
-  align-items: center;
+  /* display: flex;
+  align-items: center; */
 }
 
 .pagination__button svg {
