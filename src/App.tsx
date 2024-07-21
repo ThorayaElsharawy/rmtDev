@@ -40,6 +40,7 @@ function App() {
     currentPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE,
     currentPage * RESULTS_PER_PAGE);
 
+
   const handleChangePage = (direction: TDirection) => {
     if (direction === 'previous') {
       setCurrentPage(prev => prev - 1)
