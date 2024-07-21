@@ -1,9 +1,21 @@
 import { FaBookmark } from "react-icons/fa6";
+import { useBookmarksContext } from "../contexts/BookmarksContextProvider";
 
-export default function BookmarkIcon() {
+type BookmarkIconProps = {
+  id: number
+}
+
+export default function BookmarkIcon({ id }: BookmarkIconProps) {
+
+  const { bookMarkedIds, handleToggleBookMark } = useBookmarksContext()
+
   return (
-    <button className="bookmark-btn">
-      <FaBookmark className="filled" />
+    <button onClick={(e) => {
+      handleToggleBookMark(id);
+      e.stopPropagation();
+      e.preventDefault()
+    }} className="bookmark-btn">
+      <FaBookmark className={`${bookMarkedIds.includes(id) ? 'filled' : ''}`} />
     </button>
   );
 }

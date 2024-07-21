@@ -36,7 +36,6 @@ type SortingButtonProps = {
 }
 
 function SortingButton({ onClick, isActive, sortBy, children }: SortingButtonProps) {
-  console.log(isActive)
   return (
     <button onClick={onClick}
       className={`sorting__button sorting__button--${sortBy === 'relevant' ? 'relevant ' : 'recent'} 

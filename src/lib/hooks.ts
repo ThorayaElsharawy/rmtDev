@@ -20,7 +20,7 @@ export function useJobItem(id: number | null) {
     })
 
     useEffect(() => {
-        if(!error) return
+        if (!error) return
         const message = handleError(error)
         toast.error(message);
 
@@ -73,7 +73,7 @@ export function useJobItems(searchText: string) {
     })
 
     useEffect(() => {
-        if(!error) return
+        if (!error) return
         const message = handleError(error)
         toast.error(message);
 
@@ -100,7 +100,7 @@ export function useDebounce<T>(value: T, delay: number = 500): T {
 }
 
 const handleError = (error: unknown) => {
-   
+
     let message;
 
     if (error instanceof Error) {
@@ -112,4 +112,23 @@ const handleError = (error: unknown) => {
     }
 
     return message
+}
+
+const localStorageValue = <T>(key: string, initialValue: T) => {
+    const value = localStorage.getItem(key)
+
+    if (!value) return JSON.stringify(initialValue)
+    return JSON.parse(value)
+}
+
+export function useLocalStorage<T>(key: string, initialValue: T): [T, React.Dispatch<React.SetStateAction<T>>] {
+    const [value, setValue] = useState(() => localStorageValue(key, initialValue));
+
+    // localStorageValue(key)
+
+    useEffect(() => {
+        localStorage.setItem(key, JSON.stringify(value))
+    }, [value, key])
+
+    return [value, setValue] as const
 }

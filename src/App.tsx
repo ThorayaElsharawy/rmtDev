@@ -22,7 +22,9 @@ function App() {
   const debouncedSearchText = useDebounce(searchText, 500)
   const { jobList, isLoading } = useJobItems(debouncedSearchText);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortBy, setSortBy] = useState<TSortBy>('relevant')
+  const [sortBy, setSortBy] = useState<TSortBy>('relevant');
+ 
+
 
   const totalNumOfResult = jobList?.length || 0;
   const totalNumOfPage = totalNumOfResult / RESULTS_PER_PAGE
@@ -34,7 +36,6 @@ function App() {
     }
   })
 
-  console.log(sortedJobList)
   const jobItemSliced = sortedJobList?.slice(
     currentPage * RESULTS_PER_PAGE - RESULTS_PER_PAGE,
     currentPage * RESULTS_PER_PAGE);
@@ -47,7 +48,6 @@ function App() {
       setCurrentPage(prev => prev + 1)
     }
   }
-
   const handleChangeSortBy = (newSort: TSortBy) => {
     setCurrentPage(1)
     setSortBy(newSort)
