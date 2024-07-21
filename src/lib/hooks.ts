@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { TJobItem, TJobItemExpended } from "./types";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueries } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
 const fetchJobItem = async (id: number | null): Promise<TJobItemExpended> => {
@@ -83,6 +83,24 @@ export function useJobItems(searchText: string) {
         jobList: data,
         isLoading
     } as const
+}
+
+export function useBookmarkJobItems(ids: number[]) {
+    const results = useQueries({
+        queries: ids.map(id => ({
+            queryKey: ['job-item', id],
+            queryFn: () => id ? fetchJobItem(id) : null,
+            staleTime: 100 * 60 * 60,
+            refetchOnWindowFocus: false,
+            retry: false,
+            enabled: Boolean(id),
+        }))
+    })
+
+    const bookmarkJobItems = results.map(result => result?.data) as TJobItemExpended[]
+    const isLoading = results.some(result => result.isLoading)
+
+    return { bookmarkJobItems, isLoading } as const
 }
 
 export function useDebounce<T>(value: T, delay: number = 500): T {
